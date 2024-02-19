@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regular Expression (Regex)</title>
+  </head>
+  <body>
+    <head>
+      <h3>A Beginners Introduction to</h3>
+      <h1>REGULAR EXPRESSION IN JAVASCRIPT</h1>
+    </head>
+    <main>
+      <article>
+        <section>
+          <h2>Regular Expression</h2>
+          <p>
+            Regular Expression is a pattern of characters, which allows us to
+            "search and replace" characters in a data string that match that
+            pattern.
+          </p>
+          <p>
+            Regular expressions allow you to check a string of characters like
+            an e-mail address or password for patterns to see if they match the
+            pattern defined by that regular expression and produce actionable
+            information.
+          </p>
+        </section>
+
+        <section>
+          <h2>How to Create RegExp</h2>
+          <p>
+            There are two ways to create a regular expression in JavaScript. It
+            can either be created with a RegExp constructor, or by using RegExp
+            Literal.
+          </p>
+          <p>
+            RegExp Literal: is done by writing pattern enclosed in forward
+            slashes. The syntax: /pattern/ flags. The forward slashes (/…/)
+            indicates we’re creating a regex pattern, just as we use quotes to
+            create a string
+          </p>
+          <pre>
+                <code>
+                    const regexLiteral = /abc/;
+                </code>
+            </pre>
+          <p>
+            RegExp Constructor: The syntax is: new RegExp (pattern [, flags]).
+            The pattern in enclosed in quotes, same as the flag parameter.
+          </p>
+          <pre>
+                <code>
+                    const regexConst = new RegExp ("abc");
+                </code>
+            </pre>
+          <p><i>In both methods, the flags are optional.</i></p>
+        </section>
+
+        <section>
+          <h2>Regular Expression Methods</h2>
+          <p>
+            Whichever method is used to create a regex, the result will be a
+            regex object. Both regex objects have same methods attached to them.
+            <br />There are two methods for testing a Regular Expression.
+          </p>
+          <span>
+            The ‘.test()’ method: This method accepts a string which test
+            against a regular expression and returns a Boolean depending upon is
+            a match is found or not.
+          </span>
+          <pre>
+                <code>
+                    const pattern = /Hello/;
+                    const string1 = "Hello World";
+                    console.log(pattern.test(string1)) //returns true
+                </code>
+            </pre>
+          <span>
+            The ‘.exec()’ method: This method also accepts a string which test
+            against a regular expression but returns an array with the match (if
+            any) – otherwise it returns null
+          </span>
+          <pre>
+                <code>
+                    const pattern2 = new RegExp ("Hello");
+                    const string2 = "Hello World";
+
+                    console.log(pattern2.test(string2))  
+
+                    //outputs ['Hello', index: 0, input: 'Hello World', groups: undefined]
+                    //'Hello'  -> is the matched pattern
+                    //index -> is where the regular expression starts.
+                    //input -> is the actual string passed
+                </code>
+          </pre>
+        </section>
+
+        <section>
+            <h2>Flags or Modifier</h2>
+            <p>Flags or Modifiers are optional characters that enable advance search features.</p>
+            <span>- ‘i’: use for case-insensitive matching (a match can occur regardless of the casing)</span>
+            <pre>
+                <code>
+                    const regexInsensitive = /hello/i;
+
+                    const string = 'Hello World!';
+
+                    console.log(regexInsensitive.test(string))
+                    //returns true becuase the string case doesn't matter in case-insensitive search
+                </code>
+            </pre>
+            <span>- ‘g’: use for global search (The search will only return after all matches and not just after the first match)</span>
+            <pre>
+                <code>
+                    const regexGlobal = new RegExp ('Hello', 'g');
+
+                    const string = "Hello World, Hello Earth"
+
+                    console.log(regexGlobal.test(string))
+                    //It will match all occurence of "Hello" so it wont retrun after the first match
+                </code>
+            </pre>
+            <span>Flags can be used separately or combined together</span>
+            <pre>
+                <code>
+                    const regexCombine = /Hello/gi;
+                    
+                    const string = "hello World, Hello Earth";
+
+                    console.log(regexCombine.test(string));
+                </code>
+            </pre>
+        </section>
+
+        <section>
+            <h2>Regex Anchors</h2>
+            <p>Anchors are meta-characters that matches the start and end of a line of text they are examining</p>
+            <span>- ^: matches the beginning of a string. The expression that follows it should be at the beginning of the test string</span>
+            <pre>
+                <code>
+                    const pattern1 = /^cat/i;
+                    console.log(pattern1.test('Cat and dog')) ;
+                    // returns true because cat begins the line
+
+
+                    const pattern2 = ("^Cat", "i");
+                    console.log(pattern2.test('A cat and a dog')) ;
+                    // returns false, cat does not begin the line
+                </code>
+            </pre>
+
+            <span>- $: matches the end of a string. The expression that precedes it should be at the end of the test string.</span>
+            <pre>
+                <code>
+                    const pattern3 = /dog$/i;
+                    console.log(pattern3.test('Cat and Dog'))
+                    //returns true, dog ends the line
+
+
+                    const pattern4 = new RegExp ("dog$", "i");
+                    console.log(pattern4.test('Dog and Cat'))
+                    // returns false, dog doesn't end the line  
+                </code>
+            </pre>
+
+            <span>-\b: matches the start or end of a word. It matches the word whether it starts the string (line) or not</span>
+            <pre>
+                <code>
+                    //search for a match that begins with 'ward'
+                    const pattern = /\bward/i;
+                    const string = "Backward and Wardrobe";
+                    console.log(pattern.exec(string)) //returns ["ward"]
+
+
+                    //searches for a match that ends with 'ward'
+                    const pattern2 = /ward\b/i;
+                    const string2 = "Backward and Wardrobe";
+                    console.log(pattern2.exec(string2)) //returns ['Ward]
+
+
+                    //searches for a stand-alone word that begins and ends with 'ward'
+                    const pattern3 = /\bward\b/i;
+                    const string3 = "backward, Ward and wardrobe";
+                    console.log(pattern3.test(string3)) //returns ['Ward']
+                </code>
+            </pre>
+        </section>
+
+        <section>
+            <h2>RegExp Character Group</h2>
+            <span>Character Set [ ] – use to match any one of several characters in a particular position. It matches any single character in the string from characters present inside the brackets.</span>
+            <pre>
+                <code>
+                    const pattern = /advi[cs]e/;
+
+                    console.log(pattern.test('advice')) //returns true
+
+                    console.log(pattern.test('advise')) //returns true
+                </code>
+            </pre>
+            <span>Negated Set [^ …] – This matches anything that is not enclosed in the bracket</span>
+            <pre>
+                <code>
+                    const pattern2 = /[^bt]ear/;
+
+                    console.log(pattern2.test("fear")); //return true
+                    console.log(pattern2.test('bear')); // returns false
+                    console.log(regex.test('tear')) //returns false
+                </code>
+            </pre>
+            <span>Range – A hyphen indicates a range when used inside a character set. [a-z] matches all letters from ‘a to z’. Ranges can also be digits [0-9].</span>
+            <pre>
+                <code>
+                    const pattern = /[a-d]ear/;
+
+                    console.log(pattern.test('dear')) //returns true
+                    console.log(pattern.test('bear')) //returns true
+                    console.log(pattern.test('fear')) //returns false
+                </code>
+            </pre>
+            <span>Alternation – This matches a set of options. It uses the pipe ‘|’ symbol to match any of several subexpression. The subexpression are called alternates and are grouped in parentheses</span>
+            <pre>
+                <code>
+                    const pattern2 = /(red|green) apple/;
+
+                    console.log(pattern2.test('red apple')) //returns true
+                    console.log(pattern2.test('green apple')) //returns true
+                    console.log(pattern2.test('blue apple')) //returns false
+                </code>
+            </pre>
+        </section>
+
+        <section>
+            <h2>RegExp Meta-Characters</h2>
+            <p>Meta-characters are characters with special meaning</p>
+            <ul>
+                <li>\d: matches any digit character. Same as [0-9]</li>
+                <li>\w: matches any alphanumeric character which could be a letter, a digit or an underscore. Shorthand for [a-zA-Z0-9_]</li>
+                <li>\s: matches any whitespace character</li>
+                <li>\D: matches any non-digit character. Same as [^0-9]</li>
+                <li>\W: matches any non-word character. Shorthand for [^a-zA-Z0-9_]</li>
+                <li>\S: matches any non-whitespace character</li>
+                <li>. (period): matches any character</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Quantifiers</h2>
+            <p>Quantifiers denote how many times a character, a character group or group should appear in the target for a match.</p>
+            <span>+: matches any character it is appended to if the character appears at least once or more</span>
+            <pre>
+                <code>
+                    //+ matches the preceding expression one or more times
+
+                    const pattern = /\d+/
+                    console.log(pattern.test('8')) //outputs true
+                    console.log(pattern.test('852')) //outputs true
+                </code>
+            </pre>
+
+            <span>* matches the preceding expression or character if it appears zero or more times.</span>
+            <pre>
+                <code>
+                    // * matches the preceding expression zero or more times
+
+                    const pattern2 = /go*d/
+                    console.log(pattern2.test('gd')) //outputs true
+                    console.log(patter2.test('goood')) //output true                    
+                </code>
+            </pre>
+
+            <span>?: matches the preceding expression or character if it appears zero or one time. It means the character may or may not appear.</span>
+            <pre>
+                <code>
+                    //? matches the preceding expression zero or one time
+
+                    const pattern3 = /colou?r/
+                    console.log(pattern3.test('color')) //outputs true
+                    console.log(pattern3.test('colour')) //outputs true                   
+                </code>
+            </pre>
+
+            <span>{N}: matches exactly N occurrences of the preceding character or expression (where N is a number) </span>
+            <pre>
+                <code>
+                    const pattern = /\d{3}/ //matches three consecutive digits
+                    console.log(pattern.test('82')) //outputs false
+                    console.log(pattern.test('823')) //outputs true                    
+                </code>
+            </pre>
+
+            <span>{N, M}: matches at least N occurrences and at most M occurrences of the preceding expression or character. It specifies a range for the minimum and maximum possible match.</span>
+            <pre>
+                <code>
+                    const pattern2 = /\w{3,6}/ //matches three to six alphanumerics
+                    console.log(pattern2.test('ab12')) //outputs true
+                    console.log(pattern.test('abc123')) //outputs true               
+                </code>
+            </pre>
+
+            <span>{N,}: denotes an open-ended range. Matches at least N occurrence of the preceding expression or character.</span>
+            <pre>
+                <code>
+                    const pattern3 = /goa{2,}l/  //matches two or more 'a'
+                    console.log(pattern3.test('goaaaal')) // outputs true                
+                </code>
+            </pre>
+        </section>
+
+        <section>
+            <h2>Greediness in Regex</h2>
+            <p>
+                Quantifiers are greedy. They will try to match all possible characters <br>
+                To avoid such scenario, we anchor them with the ‘^’ to indicate the beginning of the pattern and ‘$’ to indicate the end of the pattern.
+            </p>
+            <pre>
+                <code>
+                    const pattern = /\d{3}/ //matches three consequtive digits
+
+                    console.log(pattern.test('85')) // outputs false
+                    console.log(pattern.test('845')) //outputs true
+                    
+
+                    console.log(pattern.test('8457')) //also output true
+                    //this is true because the pattern matched '845' in '8457'
+                    
+
+
+                    //to avoid this we anchor the pattern with '^' and '$'
+                    const patternAnchor = /^\d{3}$/
+
+                    console.log(patternAnchor.test('845')); //outputs true
+                    console.log(patternAnchor.test('8457')) //outputs false
+                </code>
+            </pre>
+        </section>
+        <section>
+            <h2>Grouping in Regex </h2>
+            <p>To use a quantifier on more than one character at a time, group them together as a whole using parenthesis before appending the quantifier. </p>
+            <pre>
+                <code>
+                    const pattern = /^abc+(def)+$/i;
+
+                    console.log(pattern.test('abcDEfdef')) //outputs true
+                    //the first + matches the 'c' of 'abc'
+                    //the second + matches the subexpression (def)
+                </code>
+            </pre>
+        </section>
+
+        <section>
+            <h2>Advanced Characters</h2>
+            <span>
+                - Back-referencing (x): allows us to match a new pattern that is the same as a previously matched pattern. Parenthesis is used for back-referencing. <br>Because it’s possible to have more than one captured group in a regex, we use ‘\n’ to identify the parentheses we want to back-reference (‘n’ is a number)
+            </span>
+            <pre>
+                <code>
+                    //(x)..\n/ matches x and n remembers the match
+
+                    const pattern = /(abc)def(ghi)jkl\2/i;
+                    console.log(pattern.test('abcdefghijkl')) //outputs false
+                    console.log(pattern.test('abcdefghijklGHI')) //outputs true
+                </code>
+            </pre>
+
+            <span>
+                - x(?=y): allows us to match x only if x is followed by y. Also called the positive look-ahead
+            </span>
+            <pre>
+                <code>                  
+                    const pattern2 = /Red\s(?=Apple)/i; 
+                    //the '\s' matches any whitespace character
+                    
+                    console.log(pattern2.test('Red Apple')) // true
+                    console.log(pattern.test('Red ball')) //false
+                </code>
+            </pre>
+        </section>
+      </article>
+
+      <aside>
+        <h2>A few things to Note</h2>
+        <p>
+            To use a regex special character (*/+?.) as an expression, escape them with a backslash. <br>By escaping a regex metacharacter, the metacharacter loses it special meaning.
+        </p>
+        <p>Also special characters that appears in character set […] also lose their special meaning.</p>
+        <pre>
+            <code>
+                const pattern = /^\w{3}\+\d{3}$/; 
+                // the '+' metacharacter is escaped with a backslash
+
+                console.log(pattern.test('abc123')) //outputs false
+                console.log(pattern.test('abc+123'))  //outputs true
+
+
+                const pattern2 = /[\w+/?]+/; 
+                //the matecharacter inside a character set loose their special value
+
+                console.log(pattern2.test('abc??++//')) //outputs true;
+            </code>
+        </pre>
+      </aside>
+    </main>
+  </body>
+</html>
